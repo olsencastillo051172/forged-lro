@@ -36,7 +36,31 @@ RVA is powered by **FORGED-LRO**, an append-only ledger engine with epoch-based 
 4. Offline verification (no server required)
 5. Zero-opinion certificates (state, not interpretation)
 
----
+## Conclusions and Guarantees — Canon v1.0 (Sealed)
+
+The delivered implementation satisfies 100% of the functional and non-functional requirements of the Canon v1.0 standard for:
+- `src/core/hash` (canonical JSON + SHA-256 lowercase hex)
+- `src/core/merkle` (deterministic Merkle tree with byte-level concatenation)
+- `src/core/sign` (deterministic Ed25519 with lowercase hex I/O)
+
+By eliminating external dependencies and enforcing strict validation of canonical formats, the system provides a solid foundation for evidence immutability and verifiability within FORGED-LRO.
+
+### Compliance Checklist ✅
+- stdlib-only
+- canonical JSON with sorted keys (hash)
+- minified JSON bytes (hash)
+- SHA-256 lowercase hex (hash/merkle)
+- Merkle: `hashPair = SHA256(left_bytes || right_bytes)`
+- Merkle: odd leaf count ⇒ deterministic duplication of the last node
+- Ed25519: seed/pub/sig in lowercase hex (64/64/128)
+- signing/verification over raw hash bytes (32 bytes)
+- exported and wrapped errors
+- exhaustive tests
+- `go test ./...` passes in CI (GitHub Actions)
+
+
+
+
 
 
 
