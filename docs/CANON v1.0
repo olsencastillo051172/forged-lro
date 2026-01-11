@@ -1,0 +1,163 @@
+# FORGED-LRO — CANON v1.0
+
+**Status:** FROZEN  
+**Effective Date:** 2025-01-09  
+**Scope:** Core Engine, RVA, All Verticals  
+**Applies To:** Specifications, Schemas, and Implementations
+
+---
+
+## 1. Purpose of the Canon
+
+This document defines the **non-negotiable constants, rules, and invariants**
+governing the FORGED-LRO system.
+
+The Canon exists to:
+
+- Eliminate ambiguity
+- Prevent silent protocol mutation
+- Enforce deterministic behavior
+- Provide a single source of truth (SSOT)
+- Enable external auditability
+
+Any system claiming **FORGED-LRO compliance** MUST adhere to this Canon.
+
+---
+
+## 2. Canonical Statement
+
+All operations reduce to the following invariant statement:
+
+> **Data D (hash H) was registered by entity E at timestamp T (UTC)**
+
+No other claims are permitted at the protocol level.
+
+---
+
+## 3. Core Cryptographic Constants (Immutable)
+
+The following constants are fixed for Canon v1.0:
+
+- **Hash Algorithm:** SHA-256
+- **Signature Algorithm:** Ed25519
+- **Time Reference:** UTC only
+- **Serialization:** Canonical JSON
+- **Encoding:** UTF-8
+
+Any deviation invalidates Canon compliance.
+
+---
+
+## 4. System Roles (Canonical)
+
+### 4.1 Submitter
+- Registers data into the system
+- Signs submissions cryptographically
+- Bears responsibility for data correctness
+- May be individual, enterprise, or institution
+
+### 4.2 Verifier
+- Verifies certificates offline
+- Requires no permission or account
+- Uses Merkle proofs and signatures only
+- Does not trust infrastructure or submitter
+
+### 4.3 Auditor
+- Inspects epochs and manifests
+- Validates append-only integrity
+- Confirms Canon adherence
+- Does not access raw data by default
+
+---
+
+## 5. Canonical Guarantees
+
+FORGED-LRO guarantees the following **by design**:
+
+### 5.1 Append-Only Ledger
+- No UPDATE
+- No DELETE
+- No overwrite
+- History is immutable
+
+### 5.2 Epoch Anchoring
+- Entries grouped into fixed-size epochs
+- Each epoch produces:
+  - Merkle root
+  - Ed25519 signature
+- Epochs are chained forward-only
+
+### 5.3 Offline Verifiability
+- Verification does not require:
+  - Network access
+  - Server availability
+  - Trusted third parties
+
+### 5.4 Zero-Opinion Principle
+- The system certifies **state**, not meaning
+- No truth, legality, intent, or value is asserted
+- Interpretation is strictly external
+
+---
+
+## 6. Vertical Neutrality
+
+The Canon is **vertical-agnostic**.
+
+Invoices, documents, supply chains, AI logs, or any other vertical:
+
+- Must conform to the same Canon
+- Cannot alter core invariants
+- Cannot introduce hidden semantics
+
+All verticals are extensions, never exceptions.
+
+---
+
+## 7. Change Control
+
+This Canon is **frozen**.
+
+Any modification requires:
+
+- A new Canon version (v1.1, v2.0, etc.)
+- Forward-only applicability
+- No retroactive effect
+- Explicit version declaration
+
+Silent or implicit changes are forbidden.
+
+---
+
+## 8. Integrity Statement (Binding)
+
+Any implementation, service, or product that:
+
+- Violates this Canon, or
+- Alters its invariants, or
+- Introduces contradictory behavior
+
+**MUST NOT** claim FORGED-LRO or RVA compliance.
+
+Non-compliance is binary.
+
+---
+
+## 9. Authority
+
+This Canon governs:
+
+- FORGED-LRO Core
+- Reality Validation Authority (RVA)
+- All present and future verticals
+
+There is no parallel authority.
+
+---
+
+## 10. End of Canon
+
+**FORGED-LRO — Canon v1.0**  
+**Status:** Frozen  
+**Effective:** 2026-01-10
+
