@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://forged-lro.local/schemas/merkle_tree.schema.json",
+  "title": "Merkle Proof",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["hash", "position"],
+    "properties": {
+      "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+      "position": { "type": "string", "enum": ["left", "right"] }
+    }
+  }
+}
