@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://forged-lro.local/schemas/supply_chain_event.schema.json",
+  "title": "Supply Chain Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "device_time_utc", "device_id"],
+  "properties": {
+    "event_id": { "type": "string", "format": "uuid" },
+    "device_time_utc": { "type": "string", "format": "date-time" },
+    "device_id": { "type": "string" },
+    "location": { "type": "object" },
+    "sensor_data": { "type": "object" }
+  }
+}
