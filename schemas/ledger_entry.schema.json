@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://forged-lro.local/schemas/ledger_entry.schema.json",
+  "title": "Ledger Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["entry_id", "payload_hash", "submitter_id", "timestamp_utc", "epoch_id"],
+  "properties": {
+    "entry_id": { "type": "string", "format": "uuid" },
+    "payload_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "submitter_id": { "type": "string" },
+    "timestamp_utc": { "type": "string", "format": "date-time" },
+    "epoch_id": { "type": "integer" },
+    "metadata": { "type": "object" }
+  }
+}
