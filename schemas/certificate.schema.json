@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://forged-lro.local/schemas/certificate.schema.json",
+  "title": "RVA Certificate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["certificate_type", "entry_id", "epoch_id", "merkle_root"],
+  "properties": {
+    "certificate_type": { "type": "string" },
+    "entry_id": { "type": "string", "format": "uuid" },
+    "epoch_id": { "type": "integer" },
+    "merkle_root": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "rva_signature": { "type": "string" }
+  }
+}
