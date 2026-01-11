@@ -1,0 +1,6 @@
+{
+  "entity": "ExampleCorp",
+  "hash": "abc123def4567890",
+  "timestamp": "2026-01-10T12:00:00Z",
+  "signature": "VALID_SIGNATURE_PLACEHOLDER"
+}
