@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://forged-lro.local/schemas/invoice_payload.schema.json",
+  "title": "Invoice Payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["document_hash", "submitter_id", "submission_timestamp"],
+  "properties": {
+    "document_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "submitter_id": { "type": "string" },
+    "submission_timestamp": { "type": "string", "format": "date-time" },
+    "metadata": { "type": "object" }
+  }
+}
