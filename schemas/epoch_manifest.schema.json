@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://forged-lro.local/schemas/epoch_manifest.schema.json",
+  "title": "Epoch Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["epoch_id", "merkle_root", "signature"],
+  "properties": {
+    "epoch_id": { "type": "integer" },
+    "merkle_root": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "signature": { "type": "string" }
+  }
+}
