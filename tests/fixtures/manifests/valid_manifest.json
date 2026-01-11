@@ -1,0 +1,7 @@
+{
+  "epoch": 1,
+  "entries": 1000,
+  "merkleRoot": "VALID_MERKLE_ROOT_PLACEHOLDER",
+  "signature": "VALID_SIGNATURE_PLACEHOLDER",
+  "timestamp": "2026-01-10T12:00:00Z"
+}
