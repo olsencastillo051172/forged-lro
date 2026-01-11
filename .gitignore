@@ -1,107 +1,57 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
+# ==========================================
+# FORGED-LRO / RVA - .gitignore (Go)
+# Canon v1.0 repo hygiene (no business logic)
+# ==========================================
+
+# --- Go build artifacts ---
+/bin/
+/dist/
+*.exe
+*.exe~
+*.dll
 *.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-*.manifest
-*.spec
-pip-log.txt
-pip-delete-this-directory.txt
+*.dylib
+*.a
+*.out
+*.test
+*.prof
+coverage.out
 
-# Virtual environments
-venv/
-env/
-ENV/
-env.bak/
-venv.bak/
-.venv/
+# --- Go workspace / tooling ---
+go.work
+go.work.sum
 
-# IDEs
+# --- Editor / IDE ---
 .idea/
 .vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
 
-# Jupyter
-.ipynb_checkpoints/
-
-# pyenv
-.python-version
-
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-.nox/
-coverage.xml
-*.cover
-
-# MyPy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Type checking
-.pyre/
-
-# DB
-*.db
-*.sqlite
-*.sqlite3
-
-# Logs
+# --- Logs / temp ---
 *.log
 logs/
+tmp/
+temp/
+*.tmp
 
-# Env
+# --- Environment variables / secrets ---
 .env
 .env.local
 .env.*.local
 
-# OS
-.DS_Store
-Thumbs.db
-*.swp
-*.swo
-*~
-
-# Evidence packs (local only)
-/evidence_packs/
-/epochs/
-
-# Keys (NEVER commit)
+# --- Keys / sensitive material (NEVER commit) ---
 *.pem
 *.key
 *.priv
 private_keys/
 
-# Temp
-tmp/
-temp/
-*.tmp
+# --- Evidence packs (local testing only; production uses WORM storage) ---
+/evidence_packs/
+/epochs/
 
-# Docs builds
-docs/_build/
-site/
+# --- Optional: fixtures outputs ---
+/tests/output/
 
-# Lock files
-poetry.lock
-Pipfile.lock
-package-lock.json
-yarn.lock
