@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./deploy
+    container_name: forged-lro-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth
+  auth:
+    build: ./deploy
+    container_name: forged-lro-auth
+    ports:
+      - "8081:8081"
+  ui:
+    build: ./deploy
+    container_name: forged-lro-ui
+    ports:
+      - "8082:8082"
