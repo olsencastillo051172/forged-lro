@@ -1,0 +1,5 @@
+feat(api): add skeleton for REST server
+
+- Create api/server.go with main stub
+- Add api/routes.go with placeholder routes (/ledger, /auth, /health)
+- Prepare structure for future handlers
