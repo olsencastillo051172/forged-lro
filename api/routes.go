@@ -1,5 +1,8 @@
 package api
 
-func LedgerRoute() {}
-func AuthRoute() {}
-func HealthRoute() {}
+// RegisterRoutes es un placeholder bootstrap para CI.
+// Aquí luego conectarás tu router real.
+func RegisterRoutes() {
+	// TODO: implementar rutas reales
+}
+
