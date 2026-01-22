@@ -3,15 +3,13 @@ set -e
 
 echo "⚔️ RVA Sovereign Audit: starting notarization..."
 
-# 1. Generar Anchor con Go
+# 1. Generar Anchor con Go (desde cmd/rva-rotate/main.go)
 echo "➡️ Generating anchor with Go..."
-cd lib/rva
 go run cmd/rva-rotate/main.go
 
 # 2. Correr pruebas en Go
 echo "🧪 Running Go tests..."
-go test ./... -v
-cd ../..
+go test ./lib/rva/... -v
 
 # 3. Inyectar Anchor en el Portal
 echo "➡️ Injecting anchor into portal..."
@@ -30,3 +28,4 @@ npm run build
 # 6. Mensaje final
 echo "✅ Sovereign notarization complete."
 echo "📂 Static dossier available in rva-demo-portal/out"
+
