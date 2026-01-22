@@ -5,12 +5,13 @@
   "description": "RVA Offline Verification Portal (eIDAS 2.0 Compliant)",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
     "security-audit": "npm audit",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "inject-anchor": "ts-node scripts/inject-anchor.ts"
   },
   "dependencies": {
     "next": "14.1.0",
@@ -33,3 +34,5 @@
     "testEnvironment": "node"
   }
 }
+
+  
