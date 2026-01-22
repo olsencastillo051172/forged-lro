@@ -1,6 +1,6 @@
-// RVA Cryptographic Core - Mathematical Sovereignty
+// RVA Cryptographic Core — Mathematical Sovereignty
 // Compliance: Reg (EU) 2024/1183 (eIDAS 2.0)
-// Audit Status: NO EXTERNAL DEPENDENCIES. Native Web Crypto API only.
+// Audit Status: HARDENED — Versioned Domain Separation & Strict Validation.
 
 export type HashHex = string;
 
@@ -15,16 +15,21 @@ export interface VerificationResult {
   expectedRoot: HashHex;
   pathTrace: string[];
   timestamp: string;
+  timeSource: string;
 }
 
-// Security Hardening: Strict Hex Format Validation
-function isValidHash(hash: string): boolean {
+/**
+ * Strict Hexadecimal Validation
+ * Checks for: null/undefined, exact length (64), and hex characters.
+ */
+function isValidHash(hash: unknown): hash is HashHex {
+  if (typeof hash !== 'string') return false;
+  if (hash.length !== 64) return false;
   return /^[0-9a-fA-F]{64}$/.test(hash);
 }
 
 /**
- * Generates SHA-256 hash using browser native Crypto API.
- * Zero dependencies ensures supply chain security.
+ * Native SHA-256 implementation via Web Crypto API.
  */
 export async function sha256(input: string): Promise<HashHex> {
   const encoder = new TextEncoder();
@@ -35,51 +40,61 @@ export async function sha256(input: string): Promise<HashHex> {
 }
 
 /**
- * Concatenates and hashes two nodes.
- * IMPLEMENTS DOMAIN SEPARATION to prevent Second-Preimage Attacks.
+ * Versioned Domain Separation (v1) to prevent pre-image attacks.
  */
 async function hashPair(a: HashHex, b: HashHex): Promise<HashHex> {
   const aLower = a.toLowerCase();
   const bLower = b.toLowerCase();
-  // "RVA_NODE" prefix ensures that an intermediate node cannot be confused with a leaf.
-  return await sha256(`RVA_NODE:${aLower}:${bLower}`);
+  // RVA_NODE:v1 ensures cross-version protocol safety.
+  return await sha256(`RVA_NODE:v1:${aLower}:${bLower}`);
 }
 
 /**
- * Core Logic: Offline Merkle Path Reconstruction
+ * Core Verification Logic with Enhanced Audit Metadata.
  */
 export async function verifyMerkleProof(
   targetHash: HashHex,
   proof: MerkleStep[],
   expectedRoot: HashHex
 ): Promise<VerificationResult> {
-  // Input Sanitation
-  if (!isValidHash(targetHash)) throw new Error(`Security Violation: Invalid targetHash format: ${targetHash}`);
-  if (!isValidHash(expectedRoot)) throw new Error(`Security Violation: Invalid expectedRoot format: ${expectedRoot}`);
+  // 1) Inputs Check
+  if (!isValidHash(targetHash)) {
+    throw new Error('CRITICAL_SECURITY_ERROR: Malformed targetHash.');
+  }
+  if (!isValidHash(expectedRoot)) {
+    throw new Error('CRITICAL_SECURITY_ERROR: Malformed expectedRoot.');
+  }
+  if (!Array.isArray(proof)) {
+    throw new Error('CRITICAL_SECURITY_ERROR: Proof must be an array.');
+  }
 
   let currentHash = targetHash.toLowerCase();
   const trace: string[] = [currentHash];
 
-  for (const step of proof) {
-    if (!isValidHash(step.sibling)) throw new Error(`Security Violation: Malformed sibling hash detected.`);
-    const sibling = step.sibling.toLowerCase();
-    
-    // Strict binary tree traversal
-    if (step.direction === 'left') {
-      currentHash = await hashPair(sibling, currentHash);
-    } else {
-      currentHash = await hashPair(currentHash, sibling);
+  // 2) Proof Traversal
+  for (const [index, step] of proof.entries()) {
+    if (!isValidHash(step.sibling)) {
+      throw new Error(`CRITICAL_SECURITY_ERROR: Malformed sibling at proof index ${index}.`);
     }
+    if (step.direction !== 'left' && step.direction !== 'right') {
+      throw new Error(`CRITICAL_SECURITY_ERROR: Invalid direction at proof index ${index}.`);
+    }
+
+    const sibling = step.sibling.toLowerCase();
+    currentHash =
+      step.direction === 'left'
+        ? await hashPair(sibling, currentHash)
+        : await hashPair(currentHash, sibling);
+
     trace.push(currentHash);
   }
 
-  const isValid = currentHash === expectedRoot.toLowerCase();
-  
   return {
-    isValid,
+    isValid: currentHash === expectedRoot.toLowerCase(),
     computedRoot: currentHash,
     expectedRoot: expectedRoot.toLowerCase(),
     pathTrace: trace,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    timeSource: 'Local System Clock (ISO 8601)',
   };
 }
