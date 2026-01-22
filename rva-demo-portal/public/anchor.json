@@ -1,0 +1,30 @@
+// File: rva-demo-portal/components/DemoClient.tsx (añadir)
+const loadAnchor = async () => {
+  try {
+    const res = await fetch('/anchor.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    setForm({
+      target: data.target ?? '',
+      expectedRoot: data.expectedRoot ?? '',
+      proofJson: JSON.stringify(data.proof ?? [], null, 2),
+    });
+  } catch (e: any) {
+    setAudit({
+      isValid: false,
+      computedRoot: '',
+      expectedRoot: '',
+      pathTrace: [],
+      latencyMs: 0,
+      latencyNs: '0',
+      timestamp: new Date().toISOString(),
+      timeSource: 'Local System Clock (ISO 8601)',
+      domainVersion: 'RVA_NODE:v1',
+      error: `AUDIT_FAIL: could not load anchor.json — ${String(e?.message ?? e)}`,
+    });
+  }
+};
+// Añadir el botón junto a “Execute Verification”
+<button onClick={loadAnchor} disabled={loading} style={{ padding: '12px 24px', borderRadius: '6px', border: '1px solid #000', background: '#fff', cursor: 'pointer' }}>
+  Load Anchor
+</button>
