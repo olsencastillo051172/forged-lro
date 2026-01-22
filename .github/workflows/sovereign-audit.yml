@@ -1,0 +1,57 @@
+# File: .github/workflows/sovereign-audit.yml
+
+```yaml
+name: RVA Sovereign Audit Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Permite ejecución manual para auditorías bajo demanda
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Go (The Engine)
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Set up Node.js (The Portal)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: rva-demo-portal/package-lock.json
+
+      # 1. Generar la Evidencia Matemática en Go
+      - name: Run RVA Engine (Generate Anchor)
+        run: |
+          go run cmd/rva-rotate/main.go
+          # El motor de Go escribe en internal/merkle/anchor.json
+
+      # 2. Inyectar Evidencia en el Portal
+      - name: Inject Anchor into Portal
+        run: |
+          cd rva-demo-portal
+          npm install
+          npx ts-node scripts/inject-anchor.ts
+        env:
+          RVA_ANCHOR_PATH: ../internal/merkle/anchor.json
+
+      # 3. Construir el Portal Forense (Static Artifact)
+      - name: Build Forensic Portal
+        run: |
+          cd rva-demo-portal
+          npm run build
+
+      # 4. Publicar Dossier de Auditoría
+      - name: Upload Audit Dossier
+        uses: actions/upload-artifact@v4
+        with:
+          name: rva-forensic-dossier-${{ github.sha }}
+          path: rva-demo-portal/out # Asumiendo Next.js static export
